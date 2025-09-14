@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MagicalTransition } from "@/components/MagicalTransition";
+import GalaxyBackground from "@/components/GalaxyBackground";
 
 // Import all memory images
 import memory1 from "@/assets/memory-1.png";
@@ -65,8 +66,10 @@ export default function GiftBoxPage({ onNextStep }: GiftBoxPageProps) {
 
   return (
     <MagicalTransition className="min-h-screen w-full relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 animated-bg" />
+      {/* Galaxy Background */}
+      <GalaxyBackground />
+      {/* Overlay gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-anime-deep-blue/30 to-anime-magic-purple/30" />
       
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-8">
         {!showImages ? (

@@ -4,6 +4,9 @@ import { MagicalTransition, SparkleEffect } from "@/components/MagicalTransition
 import tanjiroImage from "@/assets/tanjiro-running.png";
 import narutoImage from "@/assets/naruto-jumping.png";
 import luffyImage from "@/assets/luffy-fighting.png";
+import gokuImage from "@/assets/goku-fighting.png";
+import natsuImage from "@/assets/natsu-fire.png";
+import ichigoImage from "@/assets/ichigo-sword.png";
 
 interface LandingPageProps {
   onNameSubmit: (name: string) => void;
@@ -86,6 +89,57 @@ export default function LandingPage({ onNameSubmit }: LandingPageProps) {
         <img src={luffyImage} alt="Luffy" className="w-full h-full object-contain drop-shadow-2xl" />
       </motion.div>
 
+      <motion.div
+        className="absolute top-1/2 left-5 w-28 h-28 opacity-75"
+        animate={{
+          x: [0, 30, 0],
+          y: [0, -40, 0],
+          rotate: [0, -5, 0],
+        }}
+        transition={{
+          duration: 9,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 3,
+        }}
+      >
+        <img src={gokuImage} alt="Goku" className="w-full h-full object-contain drop-shadow-2xl" />
+      </motion.div>
+
+      <motion.div
+        className="absolute bottom-32 right-10 w-30 h-30 opacity-75"
+        animate={{
+          x: [0, -35, 0],
+          y: [0, 25, 0],
+          rotate: [0, 3, 0],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 1.5,
+        }}
+      >
+        <img src={natsuImage} alt="Natsu" className="w-full h-full object-contain drop-shadow-2xl" />
+      </motion.div>
+
+      <motion.div
+        className="absolute top-32 right-32 w-32 h-32 opacity-70"
+        animate={{
+          x: [0, -45, 0],
+          y: [0, 30, 0],
+          rotate: [0, -4, 0],
+        }}
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 4,
+        }}
+      >
+        <img src={ichigoImage} alt="Ichigo" className="w-full h-full object-contain drop-shadow-2xl" />
+      </motion.div>
+
       {/* Floating Particles */}
       <div className="absolute inset-0">
         {Array.from({ length: 15 }).map((_, i) => (
@@ -155,7 +209,7 @@ export default function LandingPage({ onNameSubmit }: LandingPageProps) {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Enter Dottie Name to Unlock the Surprise 🎁"
+                placeholder="Enter your name to unlock the surprise 🎁"
                 className="magic-input w-full text-center text-lg"
                 required
                 disabled={isSubmitting}

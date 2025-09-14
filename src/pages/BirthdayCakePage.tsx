@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MagicalTransition } from "@/components/MagicalTransition";
+import GalaxyBackground from "@/components/GalaxyBackground";
 import cakeImage from "@/assets/birthday-cake.png";
 
 export default function BirthdayCakePage() {
@@ -44,8 +45,10 @@ export default function BirthdayCakePage() {
 
   return (
     <MagicalTransition className="min-h-screen w-full relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 animated-bg" />
+      {/* Galaxy Background */}
+      <GalaxyBackground />
+      {/* Overlay gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-anime-deep-blue/30 to-anime-magic-purple/30" />
       
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-8">
         {!showWishCard ? (
@@ -66,7 +69,7 @@ export default function BirthdayCakePage() {
               }}
               transition={{ duration: 2, repeat: Infinity }}
             >
-              🎂 Make a Wish, Dottie! 🎂
+              🎂 Make a Wish, Asthik! 🎂
             </motion.h1>
 
             {/* 3D Cake Scene */}
@@ -250,7 +253,7 @@ export default function BirthdayCakePage() {
                 ]}}
                 transition={{ duration: 2, repeat: Infinity }}
               >
-                🎉 Happy Birthday, Dottie! 🎉
+                🎉 Happy Birthday, Asthik! 🎉
               </motion.h2>
               
               <motion.div
