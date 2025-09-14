@@ -5,15 +5,17 @@ import GalaxyBackground from "@/components/GalaxyBackground";
 import cakeImage from "@/assets/birthday-cake.png";
 
 export default function BirthdayCakePage() {
+  const [candlesPlaced, setCandlesPlaced] = useState(true); // Candles are placed first
   const [candlesLit, setCandlesLit] = useState(false);
   const [candlesBlownOut, setCandlesBlownOut] = useState(false);
   const [showWishCard, setShowWishCard] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [micPermission, setMicPermission] = useState<boolean | null>(null);
 
   const lightCandles = () => {
     setCandlesLit(true);
     setTimeout(() => {
-      setIsListening(true);
+      startMicrophoneListening();
     }, 2000);
   };
 
@@ -29,9 +31,51 @@ export default function BirthdayCakePage() {
     }
   };
 
-  // Simple blow detection for desktop (click) and mobile (touch)
+  const startMicrophoneListening = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      setMicPermission(true);
+      setIsListening(true);
+      
+      const audioContext = new AudioContext();
+      const analyser = audioContext.createAnalyser();
+      const microphone = audioContext.createMediaStreamSource(stream);
+      
+      analyser.smoothingTimeConstant = 0.8;
+      analyser.fftSize = 1024;
+      microphone.connect(analyser);
+      
+      const dataArray = new Uint8Array(analyser.frequencyBinCount);
+      
+      const detectBlow = () => {
+        if (!isListening) return;
+        
+        analyser.getByteFrequencyData(dataArray);
+        const average = dataArray.reduce((a, b) => a + b) / dataArray.length;
+        
+        // Detect sudden increase in audio level (blowing sound)
+        if (average > 30) { // Threshold for blow detection
+          blowCandles();
+          stream.getTracks().forEach(track => track.stop());
+          audioContext.close();
+          return;
+        }
+        
+        requestAnimationFrame(detectBlow);
+      };
+      
+      detectBlow();
+      
+    } catch (error) {
+      console.log('Microphone access denied, falling back to click');
+      setMicPermission(false);
+      setIsListening(true);
+    }
+  };
+
+  // Fallback: Simple blow detection for desktop (click) and mobile (touch)
   useEffect(() => {
-    if (isListening) {
+    if (isListening && micPermission === false) {
       const handleKeyPress = (e: KeyboardEvent) => {
         if (e.code === 'Space' || e.key === ' ') {
           blowCandles();
@@ -41,7 +85,7 @@ export default function BirthdayCakePage() {
       document.addEventListener('keydown', handleKeyPress);
       return () => document.removeEventListener('keydown', handleKeyPress);
     }
-  }, [isListening, candlesLit, candlesBlownOut]);
+  }, [isListening, micPermission, candlesLit, candlesBlownOut]);
 
   return (
     <MagicalTransition className="min-h-screen w-full relative overflow-hidden">
@@ -95,13 +139,35 @@ export default function BirthdayCakePage() {
                   />
                 </motion.div>
 
-                {/* Candle Flames */}
+                {/* Candles (always visible when placed) */}
                 <AnimatePresence>
-                  {candlesLit && !candlesBlownOut && (
+                  {candlesPlaced && (
                     <div className="absolute top-8 left-1/2 transform -translate-x-1/2 flex space-x-4">
                       {Array.from({ length: 5 }).map((_, i) => (
                         <motion.div
-                          key={i}
+                          key={`candle-${i}`}
+                          className="w-2 h-12 bg-gradient-to-t from-amber-600 to-amber-400 rounded-full"
+                          initial={{ scale: 0, y: 20 }}
+                          animate={{ scale: 1, y: 0 }}
+                          transition={{ 
+                            duration: 0.6,
+                            delay: i * 0.1,
+                            type: "spring",
+                            stiffness: 200
+                          }}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </AnimatePresence>
+
+                {/* Candle Flames */}
+                <AnimatePresence>
+                  {candlesLit && !candlesBlownOut && (
+                    <div className="absolute top-2 left-1/2 transform -translate-x-1/2 flex space-x-4">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <motion.div
+                          key={`flame-${i}`}
                           className="w-3 h-6 bg-gradient-to-t from-anime-gold to-anime-bright-gold rounded-full"
                           initial={{ scale: 0, opacity: 0 }}
                           animate={{ 
@@ -124,10 +190,10 @@ export default function BirthdayCakePage() {
                 {/* Smoke effect after blowing */}
                 <AnimatePresence>
                   {candlesBlownOut && (
-                    <div className="absolute top-8 left-1/2 transform -translate-x-1/2 flex space-x-4">
+                    <div className="absolute top-2 left-1/2 transform -translate-x-1/2 flex space-x-4">
                       {Array.from({ length: 5 }).map((_, i) => (
                         <motion.div
-                          key={i}
+                          key={`smoke-${i}`}
                           className="w-1 h-8 bg-gray-400 opacity-60 rounded-full"
                           initial={{ scale: 0, y: 0 }}
                           animate={{ 
@@ -149,7 +215,7 @@ export default function BirthdayCakePage() {
 
             {/* Instructions */}
             <AnimatePresence mode="wait">
-              {!candlesLit && (
+              {candlesPlaced && !candlesLit && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -157,13 +223,21 @@ export default function BirthdayCakePage() {
                   className="space-y-4"
                 >
                   <p className="text-xl text-anime-white mb-6">
-                    First, let's light the candles! ✨
+                    Perfect! Now let's light the candles! ✨
                   </p>
                   <motion.button
                     onClick={lightCandles}
                     className="magic-button text-lg font-bold px-8 py-4"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
+                    animate={{ 
+                      boxShadow: [
+                        "0 0 20px rgba(245, 158, 11, 0.5)",
+                        "0 0 40px rgba(245, 158, 11, 0.8)",
+                        "0 0 20px rgba(245, 158, 11, 0.5)"
+                      ]
+                    }}
+                    transition={{ duration: 2, repeat: Infinity }}
                   >
                     🔥 Light the Candles
                   </motion.button>
@@ -178,15 +252,29 @@ export default function BirthdayCakePage() {
                   className="space-y-4"
                 >
                   <motion.p
-                    className="text-xl text-anime-white mb-6"
+                    className="text-xl text-anime-white mb-4"
                     animate={{ opacity: [0.7, 1, 0.7] }}
                     transition={{ duration: 2, repeat: Infinity }}
                   >
                     Now make a wish and blow out the candles! 💨
                   </motion.p>
-                  <p className="text-anime-white/80 text-sm mb-4">
-                    Press SPACE or click the button to blow!
-                  </p>
+                  
+                  {micPermission === true && (
+                    <motion.p
+                      className="text-anime-gold text-sm mb-4"
+                      animate={{ scale: [1, 1.05, 1] }}
+                      transition={{ duration: 1.5, repeat: Infinity }}
+                    >
+                      🎤 Blow into your microphone now!
+                    </motion.p>
+                  )}
+                  
+                  {micPermission === false && (
+                    <p className="text-anime-white/80 text-sm mb-4">
+                      Press SPACE or click the button to blow!
+                    </p>
+                  )}
+                  
                   <motion.button
                     onClick={blowCandles}
                     className="magic-button text-lg font-bold px-8 py-4"
