@@ -113,7 +113,7 @@ export default function BirthdayCakePage() {
               }}
               transition={{ duration: 2, repeat: Infinity }}
             >
-              🎂 Make a Wish, Asthik! 🎂
+              🎂  Close your Eyes and Make a Wish, Kishan!!! 🎂
             </motion.h1>
 
             {/* 3D Cake Scene */}
@@ -287,7 +287,7 @@ export default function BirthdayCakePage() {
                     ]}}
                     transition={{ duration: 2, repeat: Infinity }}
                   >
-                    💨 Blow the Candles
+                    💨 Blow the Candles.....
                   </motion.button>
                 </motion.div>
               )}
@@ -341,7 +341,7 @@ export default function BirthdayCakePage() {
                 ]}}
                 transition={{ duration: 2, repeat: Infinity }}
               >
-                🎉 Happy Birthday, Asthik! 🎉
+                🎉 Happy Birthday, Kishan!!🎉
               </motion.h2>
               
               <motion.div
@@ -357,7 +357,7 @@ export default function BirthdayCakePage() {
                   ✨ You bring so much light and happiness to everyone around you, just like the magical anime worlds we love!
                 </p>
                 <p>
-                  🌟 Wishing you a year ahead filled with amazing adventures, beautiful memories, and endless possibilities!
+                  🌟 Wishing you a year ahead filled with amazing adventures, beautiful memories, and endless possibilities and lots of achievements!!!!
                 </p>
                 <p className="text-anime-gold font-semibold text-xl">
                   May your birthday be as magical as you are! 🎂💫

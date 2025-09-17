@@ -209,7 +209,7 @@ export default function LandingPage({ onNameSubmit }: LandingPageProps) {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Enter your name to unlock the surprise 🎁"
+                placeholder="Enter My name to unlock the surprise 🎁"
                 className="magic-input w-full text-center text-lg"
                 required
                 disabled={isSubmitting}

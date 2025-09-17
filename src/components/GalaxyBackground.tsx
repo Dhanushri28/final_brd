@@ -37,9 +37,7 @@ function Galaxy() {
       ))}
 
       {/* Jellyfish floating around */}
-      {Array.from({ length: 8 }).map((_, i) => (
-        <Jellyfish key={i} index={i} />
-      ))}
+      
 
       {/* Asteroid belt */}
       {Array.from({ length: 30 }).map((_, i) => (

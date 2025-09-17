@@ -4,22 +4,28 @@ import { MagicalTransition } from "@/components/MagicalTransition";
 import GalaxyBackground from "@/components/GalaxyBackground";
 
 // Import all memory images
-import memory1 from "@/assets/memory-1.png";
-import memory2 from "@/assets/memory-2.png";
-import memory3 from "@/assets/memory-3.png";
-import memory4 from "@/assets/memory-4.png";
-import memory5 from "@/assets/memory-5.png";
-import memory6 from "@/assets/memory-6.png";
-import memory7 from "@/assets/memory-7.png";
-import memory8 from "@/assets/memory-8.png";
-import memory9 from "@/assets/memory-9.png";
-import memory10 from "@/assets/memory-10.png";
-import memory11 from "@/assets/memory-11.png";
-import memory12 from "@/assets/memory-12.png";
+import memory1 from "@/assets/memory-1.jpg";
+import memory2 from "@/assets/memory-2.jpg";
+import memory3 from "@/assets/memory-3.jpg";
+import memory4 from "@/assets/memory-4.jpg";
+import memory5 from "@/assets/memory-5.jpg";
+import memory6 from "@/assets/memory-6.jpg";
+import memory7 from "@/assets/memory-7.jpg";
+import memory8 from "@/assets/memory-8.jpg";
+import memory9 from "@/assets/memory-9.jpg";
+import memory10 from "@/assets/memory-10.jpg";
+import memory11 from "@/assets/memory-11.jpg";
+import memory12 from "@/assets/memory-12.jpg";
+import memory13 from "@/assets/memory-13.jpg";
+import memory14 from "@/assets/memory-14.jpg";
+import memory15 from "@/assets/memory-15.jpg";
+import memory16 from "@/assets/memory-16.jpg";
+import memory17 from "@/assets/memory-17.jpg";
+import memory19 from "@/assets/memory-19.jpg";
 
 const memories = [
   memory1, memory2, memory3, memory4, memory5, memory6,
-  memory7, memory8, memory9, memory10, memory11, memory12
+  memory7, memory8, memory9, memory10, memory11, memory12, memory13,memory14, memory15,memory16,memory17,memory19
 ];
 
 interface GiftBoxPageProps {
@@ -162,7 +168,7 @@ export default function GiftBoxPage({ onNextStep }: GiftBoxPageProps) {
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8 }}
             >
-              💖 Beautiful Memories 💖
+              💖 Beautiful Memories With You💖
             </motion.h2>
 
             {/* Image Grid */}
@@ -180,12 +186,15 @@ export default function GiftBoxPage({ onNextStep }: GiftBoxPageProps) {
                     stiffness: 300
                   }}
                 >
-                  <div className="w-48 h-48 mx-auto overflow-hidden rounded-xl shadow-2xl transform-gpu transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_0_30px_rgba(168,85,247,0.6)]">
-                    <img
-                      src={memory}
-                      alt={`Memory ${index + 1}`}
-                      className="w-full h-full object-cover"
-                    />
+                  <div className="w-48 h-48 mx-auto overflow-hidden rounded-xl shadow-2xl transform-gpu transition-all duration-300 ">
+                    <motion.img
+                        src={memory}
+                        alt={`Memory ${index + 1}`}
+                        className="w-full h-full object-cover rounded-xl"
+                        whileHover={{ scale: 1.5 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                      />
+
                   </div>
                   
                   {/* Sparkle overlay */}
